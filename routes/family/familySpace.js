@@ -1,19 +1,19 @@
 const express = require('express');
-const { createFamilySpace, joinFamilySpace, manageFamilySpace } = require('./index'); // Corrected path
-const { FamilySpace } = require('../../models/User'); // Import FamilySpace model
+const { createFamilySpace, joinFamilySpace, manageFamilySpace } = require('./index'); 
+const { FamilySpace } = require('../../models/User'); 
 const router = express.Router();
 const auth = require('../auth/middleware');
 
 router.get('/details', async (req, res) => {
   try {
-    const familySpaceId = req.query.id; // Assume family space ID is passed as a query parameter
+    const familySpaceId = req.query.id; 
     const familySpace = await FamilySpace.findById(familySpaceId).populate('admin members').exec();
     if (!familySpace) {
       return res.status(404).json({ message: 'Family space not found' });
     }
     res.json(familySpace);
   } catch (error) {
-    console.error('Error fetching family space details:', error); // Log the error details
+    console.error('Error fetching family space details:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });

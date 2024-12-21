@@ -1,6 +1,6 @@
 const express = require('express');
 const authrouter = require('./auth/auth.js');
-const familyRoutes = require('./family/familySpace'); // Corrected path
+const familyRoutes = require('./family/familySpace');
 
 const router = express.Router();
 

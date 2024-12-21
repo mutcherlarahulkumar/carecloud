@@ -61,7 +61,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete a record by ID
 router.delete('/:id', async (req, res) => {
   try {
     const deletedRecord = await Record.findByIdAndDelete(req.params.id);

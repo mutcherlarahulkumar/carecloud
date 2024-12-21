@@ -1,13 +1,11 @@
 const { User, FamilySpace } = require('../../models/User');
 const { v4: uuidv4 } = require('uuid');
 
-// Create Family Space
 const createFamilySpace = async (req, res) => {
   try {
     const { name } = req.body;
     const userId = req.user._id;
 
-    // Validate inputs
     if (!name) {
       return res.status(400).json({ message: 'Family Space name is required.' });
     }
@@ -20,8 +18,6 @@ const createFamilySpace = async (req, res) => {
     if (user.familySpace) {
       return res.status(400).json({ message: 'User is already part of a family space.' });
     }
-
-    // Create new family space
     const familySpace = new FamilySpace({
       name,
       code: uuidv4(),
@@ -31,7 +27,6 @@ const createFamilySpace = async (req, res) => {
 
     await familySpace.save();
 
-    // Update user familySpace reference
     user.familySpace = familySpace._id;
     await user.save();
 
@@ -41,7 +36,6 @@ const createFamilySpace = async (req, res) => {
   }
 };
 
-// Join Family Space
 const joinFamilySpace = async (req, res) => {
   try {
     const { code } = req.body;
@@ -77,7 +71,6 @@ const joinFamilySpace = async (req, res) => {
   }
 };
 
-// Manage Family Space (Add/Remove Members)
 const manageFamilySpace = async (req, res) => {
   try {
     const { memberId, action } = req.body;

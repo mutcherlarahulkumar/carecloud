@@ -2,12 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Post } = require('../models/Community');
 
-// Create a new post route
 router.post('/post', async (req, res) => {
     try {
         const { title, content, userId } = req.body;
         
-        // Create a new post with the user as the author
         const post = new Post({
             title,
             content,
@@ -21,17 +19,13 @@ router.post('/post', async (req, res) => {
     }
 });
 
-// Add a comment to a post
 router.post('/post/:postId/comment', async (req, res) => {
     try {
         const { postId } = req.params;
         const { userId, content } = req.body;
-
-        // Find the post
         const post = await Post.findById(postId);
         if (!post) return res.status(404).json({ error: 'Post not found' });
 
-        // Add a new comment
         post.comments.push({ user: userId, content });
         await post.save();
 
@@ -41,13 +35,11 @@ router.post('/post/:postId/comment', async (req, res) => {
     }
 });
 
-// Delete a post
 router.delete('/post/:postId', async (req, res) => {
     try {
         const { postId } = req.params;
         const { userId } = req.body;
 
-        // Find the post and ensure the user is the author
         const post = await Post.findById(postId);
         if (!post) return res.status(404).json({ error: 'Post not found' });
 
@@ -63,26 +55,23 @@ router.delete('/post/:postId', async (req, res) => {
     }
 });
 
-// Delete a comment
 router.delete('/post/:postId/comment/:commentId', async (req, res) => {
     try {
         const { postId, commentId } = req.params;
         const { userId } = req.body;
-
-        // Find the post
         const post = await Post.findById(postId);
         if (!post) return res.status(404).json({ error: 'Post not found' });
 
-        // Find the comment
+        
         const comment = post.comments.id(commentId);
         if (!comment) return res.status(404).json({ error: 'Comment not found' });
 
-        // Ensure the user is the author of the comment
+        
         if (comment.user.toString() !== userId) {
             return res.status(403).json({ error: 'You are not authorized to delete this comment' });
         }
 
-        // Delete the comment
+        
         comment.remove();
         await post.save();
 
@@ -94,5 +83,3 @@ router.delete('/post/:postId/comment/:commentId', async (req, res) => {
 
 module.exports = router;
 
-
-// get routes need to be added to the community routes file

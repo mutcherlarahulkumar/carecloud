@@ -16,7 +16,7 @@ async function getChatResponse(userMessage) {
     temperature: 1,
     max_tokens: 1024,
     top_p: 1,
-    stream: false, // Change to false for easier handling
+    stream: false, 
     stop: null
   });
 
