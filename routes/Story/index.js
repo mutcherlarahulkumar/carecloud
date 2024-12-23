@@ -1,11 +1,12 @@
 const express = require('express');
-const { getChatResponse } = require('./chatbot');
+const { getChatResponse } = require('./Chatbot');
 const router = express.Router();
 const {streamAudio} = require('../speach');
 
 router.post('/chat', async (req, res) => {
   console.log("into chat");
     const userMessage = req.body.message;
+    console.log(userMessage);
   
     if (!userMessage) {
       return res.status(400).send({ error: "Message is required." });
@@ -13,8 +14,7 @@ router.post('/chat', async (req, res) => {
   
     try {
       const botResponse = await getChatResponse(userMessage);
-          const audio = streamAudio(botResponse);
-          
+      // streamAudio(botResponse);
       res.send({ reply: botResponse });
     } catch (error) {
       console.error("Error fetching chatbot response:", error);

@@ -18,6 +18,7 @@
     "groq-sdk": "^0.9.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.2",
+    "playht": "^0.14.0",
     "uuid": "^11.0.3"
   }
 }
